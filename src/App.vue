@@ -12,7 +12,7 @@ export default {
     return {
       arr: [
         {
-          "id": 1,
+          "id": "1",
           "placa": "p123",
           "viajes": [
             {
@@ -374,7 +374,7 @@ export default {
           ]
         },
         {
-          "id": 2,
+          "id": "2",
           "placa": "p456",
           "viajes": [
             {
@@ -762,20 +762,23 @@ export default {
         return element.viajes.reduce((prev, el) => {
           if(el.paradas === null){
             return [...prev, {
+              id: element.id,
               placa: element.placa,
               origen:  el.origen,
               destino: el.destino
             }]
           }
           return [...prev, {
+            id: element.id,
             placa: element.placa,
             origen: el.origen
           }, ...el.paradas.map( (parada)=> {
             return {
+              id: element.id,
               placa: element.placa,
               destino: parada.nombre_parada
             }
-          }), {placa: element.placa, destino: el.destino}
+          }), {id: element.id, placa: element.placa, destino: el.destino}
           ]
         }, [])
 
@@ -794,7 +797,7 @@ export default {
 
       console.log(this.viajes)
       this.viajes.forEach((el, index, arr) => {
-        console.log(el[index].placa)
+        console.log(pageWidth)
         doc.autoTable(columns, el, {
           margin: { top: 80 },
           theme: 'grid',
@@ -803,8 +806,9 @@ export default {
             // Header
             doc.setFontSize(10);
             doc.setTextColor(40);
-            doc.addImage(imgData, 'png', pageWidth / 2, 30, 50, 50);
-            doc.text(el[index].placa,pageWidth / 2 , 22, {align: "center"});
+            doc.addImage(imgData, 'png', pageWidth / 2 -30, 30, 50, 50);
+            doc.text(el[index].placa,700 , 55, {align: "center"});
+            doc.text(el[index].id,700 , 95, {align: "center"});
 
             // Footer
             var str = "Page " + doc.internal.getNumberOfPages();
@@ -821,18 +825,6 @@ export default {
         if(index < arr.length -1){
           doc.addPage()
         }
-        doc.html("<table style='border: 1px solid black; border-collapse: collapse;'>" +
-            "<td>el</td>" +
-            "" +
-            "</table>", {
-          x: 30,
-          y: 30,
-          html2canvas: {
-            scale: (doc.internal.pageSize.width - 10 * 2 ) / document.body.scrollWidth
-          },
-
-        });
-
       })
 
 
